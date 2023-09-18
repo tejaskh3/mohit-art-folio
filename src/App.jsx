@@ -1,16 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider
+} from 'react-router-dom';
+import './App.css';
+import NavbarComponent from './component/Narvbar';
+import Home from './pages/Home';
 function App() {
-  const [count, setCount] = useState(0)
-
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <>
+          <NavbarComponent />
+          <Outlet />
+        </>
+      ),
+      children: [
+        {
+          path: '/',
+          element: <Home />
+        }
+      ]
+    }
+  ]);
   return (
     <>
-      <h1>Starting the app today</h1>
+      {/* <StoreProvider> */}
+      <RouterProvider router={router} />
+
+      {/* </StoreProvider> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
