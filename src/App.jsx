@@ -2,12 +2,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Outlet,
-  Route,
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
 import NavbarComponent from './component/Narvbar';
 import Home from './pages/Home';
+import ArtWork from './pages/ArtWork';
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ function App() {
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: 'artwork',
+          element: <ArtWork />
         }
       ]
     }
