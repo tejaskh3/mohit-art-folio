@@ -8,7 +8,7 @@ import './App.css';
 import NavbarComponent from './component/Narvbar';
 import Home from './pages/Home';
 import ArtWork from './pages/ArtWork';
-
+import Gallery from './pages/Gallery';
 function App() {
   const router = createBrowserRouter([
     {
@@ -23,6 +23,10 @@ function App() {
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: 'gallery',
+          element: <Gallery />
         },
         {
           path: 'artwork',

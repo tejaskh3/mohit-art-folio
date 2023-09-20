@@ -7,10 +7,12 @@ body{
   -webkit-font-smoothin: antialiased;
   -moz-osx-font-sooting: grayscale;
   padding: 0;
+  color: white;
+  background-color: #000;
 }
 a{
   text-decoration: none;
-  color: #000;
+/* color: #000; */
 }
 *{
   box-sizing: border-box;

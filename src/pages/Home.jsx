@@ -5,8 +5,8 @@ import Footer from '../component/Footer';
 const Home = () => {
   return (
     <>
-      <Banner />
       <Biography />
+      <Banner />
       <Footer />
     </>
   );

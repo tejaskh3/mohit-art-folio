@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Navbar,
   MobileNav,
@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 const NavbarComponent = () => {
   const [openNav, setOpenNav] = useState(false);
-  const navbarBackground = openNav ? '#DFCCFB' : '';
+  const navbarBackground = openNav ? '#BEADFA' : '';
+  const signUpButtonBackground = openNav ? '#000' : '';
   useEffect(() => {
     window.addEventListener(
       'resize',
@@ -22,18 +23,18 @@ const NavbarComponent = () => {
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
       <Typography
         as="li"
-        variant="small"
-        color="blue-gray"
+        variant="h5"
+        color="white"
         className="p-1 font-normal"
       >
-        <Link to="/" className="flex items-center">
+        <Link to="/artwork" className="flex items-center">
           Artwork
         </Link>
       </Typography>
       <Typography
         as="li"
-        variant="small"
-        color="blue-gray"
+        variant="h5"
+        color="white"
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
@@ -45,26 +46,39 @@ const NavbarComponent = () => {
 
   return (
     <Navbar
-      className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 sticky top-0 shadow-md"
-      style={{ backgroundColor: navbarBackground }}
+      // className="mx-auto  py-2 px-4 lg:px-8 lg:py-4 sticky top-0 shadow shadow-white "
+      // style={{ borderRadius:0 }}
+      className="mx-auto min-w-full py-2 px-4 lg:px-8 lg:py-4 sticky top-0 shadow shadow-white bg-opacity-0 "
+      style={{
+        backgroundColor: navbarBackground,
+        borderRadius: 0,
+        zIndex: 1000,
+        border: 'none'
+      }}
     >
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900 ">
         <Typography
           as="a"
           href="#"
-          className="mr-4 cursor-pointer py-1.5 font-medium"
+          className="mr-4 cursor-pointer py-1.5 font-medium "
         >
-          <img src={Logo} alt={'logo'} className="h-12 mr-0" />
+          <Link to="/">
+            <img src={Logo} alt={'logo'} className="h-12 mr-0" />
+          </Link>
         </Typography>
-        <div className='flex flex-row gap-10 text-lg'>
-        <div className="hidden lg:block">{navList}</div>
-        <Button
-          variant="gradient"
-          size="sm"
-          className="hidden lg:inline-block hover:scale-105"
-        >
-          <Link to="/">Sign Up</Link>
-        </Button>
+        <div className="flex flex-row gap-10 text-lg">
+          <div className="hidden lg:block">{navList}</div>
+
+          <Link to="gallery">
+            {' '}
+            <Button
+              variant="gradient"
+              size="sm"
+              className="hidden lg:inline-block hover:scale-105"
+            >
+              Gallery
+            </Button>
+          </Link>
         </div>
         <IconButton
           variant="text"
@@ -107,9 +121,18 @@ const NavbarComponent = () => {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Buy Now</span>
-          </Button>
+
+          <Link to="gallery">
+            <Button
+              variant="gradient"
+              size="sm"
+              fullWidth
+              className="mb-2 hover:scale-105 ease-in"
+              style={{ backgroundColor: signUpButtonBackground }}
+            >
+              Gallery
+            </Button>
+          </Link>
         </div>
       </MobileNav>
     </Navbar>
