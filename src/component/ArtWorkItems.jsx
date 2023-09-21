@@ -20,7 +20,7 @@ const images = [
 
 const ArtWorkItems = () => {
   return (
-    <div className="flex flex-wrap justify-center mt-10">
+    <div className="flex flex-wrap justify-center mt-5">
       {images.map((image, index) => (
         <ArtWorkCard
           key={index}
