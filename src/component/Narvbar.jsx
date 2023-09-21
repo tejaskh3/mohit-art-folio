@@ -27,19 +27,13 @@ const NavbarComponent = () => {
         color="white"
         className="p-1 font-normal"
       >
-        <Link to="/artwork" className="flex items-center">
+        <Link
+          to="/artwork"
+          className="flex items-center"
+          style={{ textDecoration: 'none' }}
+        >
           Artwork
         </Link>
-      </Typography>
-      <Typography
-        as="li"
-        variant="h5"
-        color="white"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blogs
-        </a>
       </Typography>
     </ul>
   );

@@ -1,8 +1,8 @@
-import BannerImage from '../assets/banner.jpg';
-const Banner = () => {
+
+const Banner = ({imageUrl}) => {
   return (
     <img
-      src={BannerImage}
+      src={imageUrl}
       alt="Biography Image"
       className="h-screen w-4/5 rounded-lg m-auto object-center shadow-xl shadow-blue-gray-900/50"
     />
