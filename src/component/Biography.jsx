@@ -1,6 +1,6 @@
 import MohitImage from '../assets/mohit.jpg';
 import { Typography } from '@material-tailwind/react';
-
+import ProfilePic from '../assets/profile-pic.jpg'
 const Biography = () => {
   return (
     <>
@@ -11,7 +11,7 @@ const Biography = () => {
         <div className="flex flex-col justify-between md:w-1/2">
           <div className="">
             <div className="flex flex-row justify-center">
-              <img src={MohitImage} className="h-40 w-40 m-2" alt="" />
+              <img src={ProfilePic} className="h-40 w-40 m-2" alt="" />
               Through my artwork, I strive to capture various aspects of life
               and express the intricate workings of the mind. The figures I
               create on paper and canvas serve as a representation of the
