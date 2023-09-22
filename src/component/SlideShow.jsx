@@ -8,7 +8,6 @@ import images7 from '../assets/img7.jpg';
 import images8 from '../assets/img8.jpg';
 import images9 from '../assets/img9.jpg';
 import images10 from '../assets/img10.jpg';
-import banner from '../assets/img12.jpg';
 import React, { useState } from 'react';
 import { SlideshowLightbox } from 'lightbox.js-react';
 import 'lightbox.js-react/dist/index.css';
@@ -70,15 +69,11 @@ const SlideShow = () => {
   };
 
   return (
-    <div className="">
-      <div className="flex flex-col justify-center items-center p-5 h-3/4 gap-10">
-        <Button
-          onClick={handleClick}
-          className="mt-4 bg-lightCream"
-        >
+    <>
+      <div className="text-center">
+        <Button onClick={handleClick} className="mt-4 bg-lightCream mx-auto">
           Open SlideShow
         </Button>
-        <Banner imageUrl={banner}  />
       </div>
 
       {showSpinner ? (
@@ -96,7 +91,7 @@ const SlideShow = () => {
           setIsOpen(false);
         }}
       ></SlideshowLightbox>
-    </div>
+    </>
   );
 };
 
