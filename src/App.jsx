@@ -4,14 +4,13 @@ import {
   Outlet,
   RouterProvider
 } from 'react-router-dom';
-import './App.css';
 import NavbarComponent from './component/Narvbar';
 import Home from './pages/Home';
 import ArtWork from './pages/ArtWork';
 import Gallery from './pages/Gallery';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
-function App() {
+const App = () => {
   const router = createBrowserRouter([
     {
       path: '/',
@@ -50,6 +49,6 @@ function App() {
       {/* </StoreProvider> */}
     </>
   );
-}
+};
 
 export default App;
