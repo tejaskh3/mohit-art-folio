@@ -8,7 +8,7 @@ const {
   deleteArtwork
 } = require('../controller/artwork');
 
-router.route('/').get(getAllArtwork).post(createArtwork);
-router.route('/:id').get(getArtwork).patch(updateArtwork).delete(deleteArtwork);
+router.route('/artwork').get(getAllArtwork).post(createArtwork);
+router.route('/artwork/:id').get(getArtwork).patch(updateArtwork).delete(deleteArtwork);
 
 module.exports = router;

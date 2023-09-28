@@ -12,13 +12,21 @@ const ArtworkSchema = new mongoose.Schema({
     trim: true,
     maxlength: [20, "name can't be more then 20 characters."]
   },
+  story: {
+    type: String
+  },
   price: {
     type: Number,
     default: 200
   },
-  image: {
+  imageURL: {
     type: String
-  }
+  },
+  imageUrls: [
+    {
+      type: String
+    }
+  ]
 });
 
 module.exports = mongoose.model('Artwork', ArtworkSchema);
