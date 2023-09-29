@@ -8,7 +8,7 @@ const ArtworkSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, 'must provide name'],
+    required: [true, 'must provide description'],
     trim: true,
     maxlength: [20, "name can't be more then 20 characters."]
   },
@@ -22,7 +22,7 @@ const ArtworkSchema = new mongoose.Schema({
   imageURL: {
     type: String
   },
-  imageUrls: [
+  images: [
     {
       type: String
     }
