@@ -6,24 +6,33 @@ const defaultDetails = {
   description: '',
   story: '',
   price: '',
-  imageURl: '',
+  imageURL: '',
   images: []
 };
 const CreateArtworkForm = ({ isOpen, onClose }) => {
   const [artworkDetails, setArtworkDetails] = useState(defaultDetails);
-  const { name, description, price, story, imageURl, images } = artworkDetails;
+  const { name, description, price, story, imageURL, images } = artworkDetails;
   const { createArtwork, updateArtwork, deleteArtwork } =
     useContext(ArtworkContext);
 
   const handleChange = e => {
     const { name, value } = e.target;
-    console.log(value);
     setArtworkDetails({ ...artworkDetails, [name]: value });
   };
+
+  const handleImageUpload = e => {
+    if (e.target && e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const imageURL = URL.createObjectURL(file);
+      setArtworkDetails({ ...artworkDetails, imageURL });
+    }
+  };
+
 
   const handleSubmit = async e => {
     e.preventDefault();
     console.log('trying hitting the api');
+    // console.log(artworkDetails);
     await createArtwork(artworkDetails);
     setArtworkDetails(defaultDetails);
     onClose();
@@ -84,20 +93,22 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
               className="w-full px-4 py-2 rounded-lg border border-lightCream focus:outline-none focus:border-purpleMain text-black"
             />
           </div>
-          {/* <div className="mb-4">
+          <div className="mb-4">
             <label
-              htmlFor="image"
+              htmlFor="imageURL"
               className="block text-white text-sm font-medium mb-2"
             >
               Image:
             </label>
             <input
               type="file"
-              id="image"
-              name="image"
+              // id={imageURL}
+              accept="image/*"
+              onChange={handleImageUpload}
+              // name="imageURL"
               className="w-full px-4 py-2 rounded-lg border border-lightCream focus:outline-none focus:border-purpleMain"
             />
-          </div> */}
+          </div>
           <button
             type="submit"
             className="w-full bg-medPurple text-white py-2 rounded-lg hover:bg-purpleMain"

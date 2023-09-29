@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CreateArtworkModal from './CreateArtworkForm';
 import ArtworkItems from './ArtworkItems';
-
+import {Button} from '@material-tailwind/react';
 const ArtWorkManagement = () => {
   const [isCreateArtworkModalOpen, setCreateArtworkModalOpen] = useState(false);
 
@@ -16,7 +16,7 @@ const ArtWorkManagement = () => {
   return (
     <div>
       <p>artwork management</p>
-      <button onClick={openCreateArtworkModal}>Create Artwork</button>
+      <Button onClick={openCreateArtworkModal} className='bg-purpleMain'>Create Artwork</Button>
       <CreateArtworkModal
         isOpen={isCreateArtworkModalOpen}
         onClose={closeCreateArtworkModal}

@@ -31,7 +31,7 @@ const ArtworkProvider = ({ children }) => {
       );
       console.log('Artwork created:', res);
     } catch (error) {
-      console.log('error while creation of a new artwork', error.message);
+      console.log('error while creation of a new artwork', { error });
     }
   };
   // updating artwork
