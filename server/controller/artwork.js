@@ -1,6 +1,5 @@
 const Artwork = require('../models/Artwork');
 
-
 // Create artwork with photo upload
 const createArtwork = async (req, res) => {
   try {
@@ -12,7 +11,7 @@ const createArtwork = async (req, res) => {
       res.send('Please enter something');
     }
 
-    res.status(201).json({ success: true, data: artwork });
+    res.status(201).json(artwork);
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -23,14 +22,10 @@ const updateArtwork = async (req, res) => {
   try {
     const { name, description, price, imageURL, images, story } = req.body;
 
-    const artwork = await Artwork.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
-    );
+    const artwork = await Artwork.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
 
     if (!artwork) {
       return res
@@ -38,7 +33,8 @@ const updateArtwork = async (req, res) => {
         .json({ success: false, error: 'Artwork not found' });
     }
 
-    res.status(200).json({ success: true, data: artwork });
+    // res.status(200).json({ success: true, data: artwork });
+    res.status(200).json(artwork);
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -48,7 +44,8 @@ const updateArtwork = async (req, res) => {
 const getAllArtwork = async (req, res) => {
   try {
     const artwork = await Artwork.find();
-    res.status(200).json({ success: true, data: artwork });
+    // res.status(200).json({ success: true, data: artwork });
+    res.status(200).json(artwork);
   } catch (error) {
     res.status(500).json({ success: false, error: 'Server Error' });
   }
@@ -63,7 +60,8 @@ const getArtwork = async (req, res) => {
         .status(404)
         .json({ success: false, error: 'Artwork not found' });
     }
-    res.status(200).json({ success: true, data: artwork });
+    // res.status(200).json({ success: true, data: artwork });
+    res.status(200).json(artwork);
   } catch (error) {
     res.status(500).json({ success: false, error: 'Server Error' });
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import {ArtworkContext }from '../../../context/ArtworkContext';
+import { ArtworkContext } from '../../../context/ArtworkContext';
 const defaultDetails = {
   name: '',
   description: '',
@@ -11,8 +11,9 @@ const defaultDetails = {
 };
 const CreateArtworkForm = ({ isOpen, onClose }) => {
   const [artworkDetails, setArtworkDetails] = useState(defaultDetails);
-  const { name, description, price, story,imageURl,images} = artworkDetails;
-  const {createArtwork} = useContext(ArtworkContext);
+  const { name, description, price, story, imageURl, images } = artworkDetails;
+  const { createArtwork, updateArtwork, deleteArtwork } =
+    useContext(ArtworkContext);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -21,27 +22,11 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async e => {
-    try {
-      // Send a POST request to your server's API endpoint
-      e.preventDefault();
-      console.log('trying hitting the api');
-      // console.log(artworkDetails);
-      // const response = await axios.post(
-      //   'http://localhost:3000/api/v1/artwork',
-      //   artworkDetails
-      // )
-
-      // // Assuming a successful response, you can handle the response data here
-      // console.log('Artwork created:', response.data);
-
-      // Reset the form and close the modal
-      await createArtwork(artworkDetails);
-      setArtworkDetails(defaultDetails);
-      onClose();
-    } catch (error) {
-      // Handle errors if the request fails
-      console.error('Error creating artwork:', error);
-    }
+    e.preventDefault();
+    console.log('trying hitting the api');
+    await createArtwork(artworkDetails);
+    setArtworkDetails(defaultDetails);
+    onClose();
   };
 
   return (
