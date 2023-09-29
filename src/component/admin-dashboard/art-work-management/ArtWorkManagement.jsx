@@ -1,9 +1,27 @@
-import image1 from '../../../assets/img1.jpg';
+import React, { useState } from 'react';
+import CreateArtworkModal from './CreateArtworkForm';
+import ArtworkItems from './ArtworkItems';
+
 const ArtWorkManagement = () => {
+  const [isCreateArtworkModalOpen, setCreateArtworkModalOpen] = useState(false);
+
+  const openCreateArtworkModal = () => {
+    setCreateArtworkModalOpen(true);
+  };
+
+  const closeCreateArtworkModal = () => {
+    setCreateArtworkModalOpen(false);
+  };
+
   return (
-    <div  >
-      <img src={image1} alt="" />
-      <p style={{ color: 'red' }} >title</p>
+    <div>
+      <p>artwork management</p>
+      <button onClick={openCreateArtworkModal}>Create Artwork</button>
+      <CreateArtworkModal
+        isOpen={isCreateArtworkModalOpen}
+        onClose={closeCreateArtworkModal}
+      />
+      <ArtworkItems/>
     </div>
   );
 };
