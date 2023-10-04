@@ -32,11 +32,11 @@ const App = () => {
         {
           path: 'artwork',
           element: <ArtWork />
-        }
+        },
       ]
     },
     {
-      path: 'dashboard/:password', // Use a colon to indicate a parameter
+      path: 'dashboard/:password',
       element: <Dashboard />
     },
     { path: '*', element: <NotFound /> }

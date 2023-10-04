@@ -5,7 +5,7 @@ import ArtWorkItems from '../component/ArtWorkItems';
 
 const ArtWork = () => {
   return (
-    <div>
+    <div className='min-h-screen'>
       <ArtWorkItems/>
     </div>
   );
