@@ -1,36 +1,31 @@
-import ArtWorkCard from "./ArtWorkItemCard";
-
-import image1 from '../assets/img1.jpg';
-import image2 from '../assets/img2.jpg';
-import image3 from '../assets/img3.jpg';
-import image4 from '../assets/img4.jpg';
-import image5 from '../assets/img5.jpg';
-
-const images = [
-  image1,
-  image2,
-  image3,
-  image4,
-  image5,
-  image2,
-  image3,
-  image4,
-  image5
-];
-
+import ArtWorkCard from './ArtWorkItemCard';
+import { useContext } from 'react';
+import { ArtworkContext } from '../context/ArtworkContext';
+import { Typography, Button } from '@material-tailwind/react';
+import { Link } from 'react-router-dom';
 const ArtWorkItems = () => {
+  const { artwork } = useContext(ArtworkContext);
   return (
     <div className="flex flex-wrap justify-center mt-5">
-      {images.map((image, index) => (
-        <ArtWorkCard
-          key={index}
-          imageUrl={image}
-          imageName="Name" // Replace with actual image name
-          imageDescription={
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus repellendus'
-          } // Replace with actual image description
-        />
-      ))}
+      {artwork.length === 0 ? (
+        <div className='flex flex-col items-center'>
+          <Typography variant="h1">No artwork to show.</Typography>
+          <Link>
+            <Button className='bg-lightCream'>Back to home</Button>
+          </Link>
+        </div>
+      ) : (
+        artwork.map(({ imageURL, name, description, _id }) => (
+          <ArtWorkCard
+            key={_id}
+            imageUrl={imageURL}
+            imageName={name} 
+            imageDescription={description}
+            id={_id}
+            isAdmin={false}
+          />
+        ))
+      )}
     </div>
   );
 };

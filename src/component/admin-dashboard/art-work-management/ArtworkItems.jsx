@@ -1,18 +1,23 @@
-import axios from "axios"
-import { useEffect } from "react"
+import { useContext } from 'react';
+import ArtWorkCard from '../../ArtWorkItemCard';
+import { ArtworkContext } from '../../../context/ArtworkContext';
 
+const ArtWorkItems = () => {
+  const { artwork } = useContext(ArtworkContext);
+  return (
+    <div className="flex flex-wrap justify-center mt-5">
+      {artwork.map(({ imageURL, name, description, _id }) => (
+        <ArtWorkCard
+          key={_id}
+          imageUrl={imageURL}
+          imageName={name} // Replace with actual image name
+          imageDescription={description}
+          artworkId={ _id }
+          isAdmin={true}
+        />
+      ))}
+    </div>
+  );
+};
 
-const ArtworkItems = () => {
-  // useEffect(()=>{
-
-  //   const  fetchData =  async ()=>{
-  //      const res = await axios.get('http://localhost:3000/api/v1/artwork');
-  //      console.log(res.data);
-  //   }
-  //   fetchData();
-  // },[])
-  return (  <div>ArtworkItems</div>
-  )
-}
-
-export default ArtworkItems
+export default ArtWorkItems;

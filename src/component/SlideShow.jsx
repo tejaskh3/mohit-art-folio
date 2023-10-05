@@ -1,62 +1,16 @@
-import images1 from '../assets/img1.jpg';
-import images2 from '../assets/img2.jpg';
-import images3 from '../assets/img3.jpg';
-import images4 from '../assets/img4.jpg';
-import images5 from '../assets/img5.jpg';
-import images6 from '../assets/img6.jpg';
-import images7 from '../assets/img7.jpg';
-import images8 from '../assets/img8.jpg';
-import images9 from '../assets/img9.jpg';
-import images10 from '../assets/img10.jpg';
-import React, { useState } from 'react';
+
+import React, { useContext, useState } from 'react';
 import { SlideshowLightbox } from 'lightbox.js-react';
 import 'lightbox.js-react/dist/index.css';
 import { Spinner, Button } from '@material-tailwind/react';
 import Banner from './Banner';
+import { ArtworkContext } from '../context/ArtworkContext';
 const SlideShow = () => {
-  const images = [
-    {
-      src: images1,
-      alt: 'Naked man'
-    },
-    {
-      src: images2,
-      alt: 'alternative words'
-    },
-    {
-      src: images3,
-      alt: 'alternative'
-    },
-    {
-      src: images4,
-      alt: 'alternative'
-    },
-    {
-      src: images5,
-      alt: 'alternative'
-    },
-    {
-      src: images6,
-      alt: 'alternative'
-    },
-    {
-      src: images7,
-      alt: 'alternative'
-    },
-    {
-      src: images8,
-      alt: 'alternative'
-    },
-    {
-      src: images9,
-      alt: 'alternative'
-    },
-    {
-      src: images10,
-      alt: 'alternative'
-    }
-  ];
-
+  const {artwork} = useContext(ArtworkContext);
+  const images = artwork.map((art) => ({
+    src: art.imageURL,
+    alt: art.name,
+  }));
   const [isOpen, setIsOpen] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
 

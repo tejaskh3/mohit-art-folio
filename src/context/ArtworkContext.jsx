@@ -31,7 +31,11 @@ const ArtworkProvider = ({ children }) => {
       );
       console.log('Artwork created:', res);
     } catch (error) {
+<<<<<<< HEAD
       console.log('error while creation of a new artwork', { error });
+=======
+      console.log('error while creation of a new artwork', error);
+>>>>>>> backend
     }
   };
   // updating artwork
@@ -70,6 +74,7 @@ const ArtworkProvider = ({ children }) => {
       setArtwork(prevArtwork =>
         prevArtwork.filter(art => art._id !== artworkId)
       );
+      alert('artwork deleted')
     } catch (error) {
       console.log('Error while deleting artwork:', error.message);
     }

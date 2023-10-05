@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ArtworkContext } from '../../../context/ArtworkContext';
+import { Button } from '@material-tailwind/react';
 const defaultDetails = {
   name: '',
   description: '',
@@ -14,11 +15,13 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
   const { name, description, price, story, imageURL, images } = artworkDetails;
   const { createArtwork, updateArtwork, deleteArtwork } =
     useContext(ArtworkContext);
-
+  const [url, setUrl] = useState('');
+  const [file, setFile] = useState('');
   const handleChange = e => {
     const { name, value } = e.target;
     setArtworkDetails({ ...artworkDetails, [name]: value });
   };
+<<<<<<< HEAD
 
   const handleImageUpload = e => {
     if (e.target && e.target.files && e.target.files.length > 0) {
@@ -35,6 +38,25 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
     // console.log(artworkDetails);
     await createArtwork(artworkDetails);
     setArtworkDetails(defaultDetails);
+=======
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    // try {
+    // const res = await
+    axios.post('http://localhost:3000/api/v1/upload', formData).then(res => {
+      console.log(res.data);
+      setArtworkDetails({ ...artworkDetails, imageURL: res.data });
+      alert('image uploaded')
+    });
+  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log('trying hitting the create artwork api');
+    createArtwork(artworkDetails);
+    // setArtworkDetails(defaultDetails);
+    console.log(artworkDetails);
+>>>>>>> backend
     onClose();
   };
 
@@ -102,6 +124,7 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
             </label>
             <input
               type="file"
+<<<<<<< HEAD
               // id={imageURL}
               accept="image/*"
               onChange={handleImageUpload}
@@ -109,6 +132,22 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
               className="w-full px-4 py-2 rounded-lg border border-lightCream focus:outline-none focus:border-purpleMain"
             />
           </div>
+=======
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={e => setFile(e.target.files[0])}
+              className="w-full px-4 py-2 rounded-lg border border-lightCream focus:outline-none focus:border-purpleMain"
+            />
+          </div>
+          <button
+            type="button"
+            className="w-full bg-medPurple text-white py-2 rounded-lg hover:bg-purpleMain"
+            onClick={handleUpload}
+          >
+            Upload Photo
+          </button>
+>>>>>>> backend
           <button
             type="submit"
             className="w-full bg-medPurple text-white py-2 rounded-lg hover:bg-purpleMain"
@@ -119,6 +158,19 @@ const CreateArtworkForm = ({ isOpen, onClose }) => {
         </form>
       </div>
     </div>
+    // <div>
+    //   <input type="file" onChange={e => setFile(e.target.files[0])} />
+    //   <Button onClick={handleImageUpload} className="bg-lightPurple text-white">
+    //     Upload
+    //   </Button>
+
+    //   {imageUrl && (
+    //     <div>
+    //       <p>Uploaded Image:</p>
+    //       <img src={imageUrl} alt="Uploaded Artwork" width="200" height="200" />
+    //     </div>
+    //   )}
+    // </div>
   );
 };
 

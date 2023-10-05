@@ -8,7 +8,7 @@ const createArtwork = async (req, res) => {
     const artwork = await Artwork.create(req.body);
 
     if (!artwork) {
-      res.send('Please enter something');
+    res.send('Plase enter something');
     }
 
     res.status(201).json(artwork);
