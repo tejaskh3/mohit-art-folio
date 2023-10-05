@@ -11,8 +11,18 @@ import {
 import { ReactComponent as Whatsapp } from '../assets/whatsapp.svg';
 import { Link } from 'react-router-dom';
 import { ArtworkContext } from '../context/ArtworkContext';
+import EditArtwork from './admin-dashboard/art-work-management/EditArtwork';
 
 const ArtWorkCard = ({ imageUrl, imageName, imageDescription, isAdmin,artworkId}) => {
+  const [isEditArtworkModalOpen, setIsEditArtworkModalOpen] = useState(false);
+
+  const openCreateArtworkModal = () => {
+    setIsEditArtworkModalOpen(true);
+  };
+
+  const closeCreateArtworkModal = () => {
+    setIsEditArtworkModalOpen(false);
+  };
   const {  deleteArtwork } = useContext(ArtworkContext);
   const handleDelete = () =>{
     deleteArtwork(artworkId);
@@ -45,7 +55,7 @@ const ArtWorkCard = ({ imageUrl, imageName, imageDescription, isAdmin,artworkId}
           </Typography>
           <div className=" grid justify-items-center mt-3 mb-0 gap-2">
             {isAdmin ? (
-              <Button onClick={handleUpdate} className='bg-lightCream'>Update</Button>
+              <Button  className='bg-lightCream' onClick={openCreateArtworkModal}>Update</Button>
             ) : (
               <Button variant="outlined" size="sm">
                 Full Page view
@@ -70,6 +80,11 @@ const ArtWorkCard = ({ imageUrl, imageName, imageDescription, isAdmin,artworkId}
           </div>
         </CardBody>
       </Card>
+      <EditArtwork
+        isOpen={isEditArtworkModalOpen}
+        onClose={closeCreateArtworkModal}
+        artworkId={artworkId}
+      />
     </>
   );
 };

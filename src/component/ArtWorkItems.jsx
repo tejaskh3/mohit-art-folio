@@ -19,7 +19,7 @@ const ArtWorkItems = () => {
           <ArtWorkCard
             key={_id}
             imageUrl={imageURL}
-            imageName={name} // Replace with actual image name
+            imageName={name} 
             imageDescription={description}
             id={_id}
             isAdmin={false}

@@ -70,6 +70,7 @@ const ArtworkProvider = ({ children }) => {
       setArtwork(prevArtwork =>
         prevArtwork.filter(art => art._id !== artworkId)
       );
+      alert('artwork deleted')
     } catch (error) {
       console.log('Error while deleting artwork:', error.message);
     }
