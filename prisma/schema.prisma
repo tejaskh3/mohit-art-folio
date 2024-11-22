@@ -7,11 +7,12 @@ model Artwork {
   id          Int      @id @default(autoincrement())
   title       String
   description String
+  story       String?  @db.Text // Longer markdown story content
   price       Float
   imageUrl    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-} 
+}
 generator client {
   provider = "prisma-client-js"
 }

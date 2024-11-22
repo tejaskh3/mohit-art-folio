@@ -1,48 +1,67 @@
-import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+
+    // pagination parameters with defaults
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const skip = (page - 1) * limit;
+
+    // total count for pagination to calculate total pages and next/previous links
+    const total = await prisma.artwork.count();
+
+    // fetch paginated artworks with optimized fields
     const artworks = await prisma.artwork.findMany({
+      skip,
+      take: limit,
       orderBy: {
         createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        price: true,
+        imageUrl: true,
+        createdAt: true,
+        // Only include story in detailed view
+        story: true
       }
-    })
-    return NextResponse.json(artworks)
+    });
+
+    // Return paginated response
+    return NextResponse.json({
+      data: artworks,
+      metadata: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30'
+      }
+    });
+
   } catch (error) {
-    console.error('Detailed error:', error)
+    console.error('Error fetching artworks:', error);
     return NextResponse.json(
-      { error: 'Error fetching artworks', details: error instanceof Error ? error.message : 'Unknown error' }, 
-      { status: 500 }
-    )
+      {
+        message: "An error occurred while fetching artworks",
+        error: process.env.NODE_ENV === 'development' && error instanceof Error ? 
+          error.message : 
+          'Internal server error'
+      },
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store'
+        }
+      }
+    );
   }
 }
-
-export async function POST(req: Request) {
-  try {
-    const body = await req.json()
-    
-    if (!body.title || !body.description || !body.price || !body.imageUrl) {
-      return NextResponse.json(
-        { error: 'Missing required fields' }, 
-        { status: 400 }
-      )
-    }
-
-    const artwork = await prisma.artwork.create({
-      data: {
-        title: body.title,
-        description: body.description,
-        price: parseFloat(body.price),
-        imageUrl: body.imageUrl,
-      },
-    })
-    return NextResponse.json(artwork)
-  } catch (error) {
-    console.error('Detailed error:', error)
-    return NextResponse.json(
-      { error: 'Error creating artwork', details: error instanceof Error ? error.message : 'Unknown error' }, 
-      { status: 500 }
-    )
-  }
-} 
