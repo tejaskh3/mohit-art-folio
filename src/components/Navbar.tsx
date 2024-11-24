@@ -4,9 +4,12 @@ import { useState } from "react"
 import Image from "next/image";
 import { Logo } from "../../public/logo";
 import { motion, AnimatePresence } from "framer-motion"
+import { ShoppingCart } from 'lucide-react'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  // TODO: replace with actual cart item count
+  const [cartItemCount, setCartItemCount] = useState(2)
  
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-white">
@@ -34,8 +37,18 @@ export default function Navbar() {
             </div>
           </div>
  
-          <div className="flex-shrink-0 hidden md:block">
-            <span className="invisible">Logo</span>
+          <div className="flex-shrink-0 flex items-center">
+            <button 
+              className="relative p-2 hover:bg-gray-100 rounded-full"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingCart className="h-6 w-6" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
           </div>
  
           <div className="flex md:hidden">
@@ -100,6 +113,24 @@ export default function Navbar() {
               >
                 Contact
               </motion.a>
+              <div className="px-4 pb-4">
+                <motion.div
+                  className="flex items-center justify-between"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <span className="block px-4 py-3 text-base font-medium">Cart</span>
+                  <div className="relative">
+                    <ShoppingCart className="h-6 w-6" />
+                    {cartItemCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {cartItemCount}
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
