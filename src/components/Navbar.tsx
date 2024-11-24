@@ -3,6 +3,8 @@
 import { useState } from "react"
 import Image from "next/image";
 import { Logo } from "../../public/logo";
+import { motion, AnimatePresence } from "framer-motion"
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
  
@@ -42,72 +44,66 @@ export default function Navbar() {
               className="inline-flex items-center justify-center rounded-md p-2 hover:bg-gray-100"
             >
               <span className="sr-only">Open main menu</span>
-              {!isOpen ? (
-                <svg
-                  className="block h-7 w-7"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="block h-7 w-7"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              )}
+              <div className="relative w-7 h-7">
+                <span className={`absolute block h-0.5 w-7 bg-current transform transition-all duration-300 ease-in-out ${isOpen ? 'rotate-45 top-3' : 'top-2'}`} />
+                <span className={`absolute block h-0.5 w-7 bg-current transform transition-all duration-300 ease-in-out ${isOpen ? 'opacity-0' : 'top-4'}`} />
+                <span className={`absolute block h-0.5 w-7 bg-current transform transition-all duration-300 ease-in-out ${isOpen ? '-rotate-45 top-3' : 'top-6'}`} />
+              </div>
             </button>
           </div>
         </div>
       </div>
  
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="space-y-2 px-4 pb-4 pt-2">
-            <a
-              href="/"
-              className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
-            >
-              Home
-            </a>
-            <a
-              href="/about"
-              className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
-            >
-              About
-            </a>
-            <a
-              href="/artworks"
-              className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
-            >
-              Artworks
-            </a>
-            <a
-              href="/contact"
-              className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <div className="space-y-2 px-4 pb-4 pt-2">
+              <motion.a
+                href="/"
+                className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                Home
+              </motion.a>
+              <motion.a
+                href="/about"
+                className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                About
+              </motion.a>
+              <motion.a
+                href="/artworks"
+                className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                Artworks
+              </motion.a>
+              <motion.a
+                href="/contact"
+                className="block rounded-md px-4 py-3 text-base font-medium hover:bg-gray-100"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                Contact
+              </motion.a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   )
 }
