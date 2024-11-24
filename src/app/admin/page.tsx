@@ -7,19 +7,48 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-
 interface ArtworkType {
-    id: number;
+    id: string;
     title: string;
     description: string;
     price: number;
     imageUrl: string;
+    storyMarkdown: string | null;
+    category: string | null;
+    dimensions: string | null;
+    medium: string | null;
+    status: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface PaginatedResponse {
+  data: ArtworkType[];
+  metadata: {
+    nextCursor: string | undefined;
+    hasMore: boolean;
+  };
+}
+
+const defaultNewArtwork = {
+  title: '',
+  description: '',
+  price: '',
+  imageUrl: '',
+  storyMarkdown: '',
+  category: '',
+  dimensions: '',
+  medium: '',
+  status: 'AVAILABLE' // default status
 }
 
 export default function AdminPage() {
   const [artworks, setArtworks] = useState<ArtworkType[]>([])
-  const [newArtwork, setNewArtwork] = useState({ title: '', description: '', price: '', imageUrl: '' })
-  const [editingArtwork, setEditingArtwork] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [nextCursor, setNextCursor] = useState<string | undefined>()
+  const [hasMore, setHasMore] = useState(true)
+  const [newArtwork, setNewArtwork] = useState(defaultNewArtwork)
+  const [editingArtwork, setEditingArtwork] = useState<string | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -44,7 +73,7 @@ export default function AdminPage() {
         if (response.ok) {
           const savedArtwork = await response.json()
           setArtworks([...artworks, savedArtwork])
-          setNewArtwork({ title: '', description: '', price: '', imageUrl: '' })
+          setNewArtwork(defaultNewArtwork)
         }
       } catch (error) {
         console.error('Error adding artwork:', error)
@@ -52,14 +81,14 @@ export default function AdminPage() {
     }
   }
 
-  const handleRemoveArtwork = (id: number) => {
+  const handleRemoveArtwork = (id: string) => {
     setArtworks(artworks.filter(artwork => artwork.id !== id))
     if (editingArtwork === id) {
       setEditingArtwork(null)
     }
   }
 
-  const handleEditArtwork = (id: number) => {
+  const handleEditArtwork = (id: string) => {
     setEditingArtwork(id)
   }
 
@@ -79,19 +108,40 @@ export default function AdminPage() {
     }
   }
 
-  useEffect(() => {
-    const fetchArtworks = async () => {
-      try {
-        const response = await fetch('/api/artworks')
-        if (response.ok) {
-          const data = await response.json()
-          setArtworks(data)
+  const fetchArtworks = async (cursor?: string) => {
+    try {
+      setIsLoading(true)
+      const url = `/api/artworks?limit=10${cursor ? `&cursor=${cursor}` : ''}`
+      const response = await fetch(url)
+      
+      if (response.ok) {
+        const data: PaginatedResponse = await response.json()
+        
+        if (cursor) {
+          // Append new artworks to existing ones
+          setArtworks(prev => [...prev, ...data.data])
+        } else {
+          // Replace artworks if it's the first fetch
+          setArtworks(data.data)
         }
-      } catch (error) {
-        console.error('Error fetching artworks:', error)
+        
+        setNextCursor(data.metadata.nextCursor)
+        setHasMore(data.metadata.hasMore)
       }
+    } catch (error) {
+      console.error('Error fetching artworks:', error)
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  const loadMore = () => {
+    if (hasMore && !isLoading && nextCursor) {
+      fetchArtworks(nextCursor)
+    }
+  }
+
+  useEffect(() => {
     fetchArtworks()
   }, [])
 
@@ -160,66 +210,87 @@ export default function AdminPage() {
       
       <h2 className="text-2xl font-semibold mb-4">Manage Artworks</h2>
       <div className="space-y-6">
-        {artworks.map((artwork) => (
-          <div key={artwork.id} className="border rounded-lg overflow-hidden shadow-lg p-4">
-            <div className="flex flex-col md:flex-row gap-4">
-              <Image
-                src={artwork.imageUrl}
-                alt={artwork.title}
-                width={200}
-                height={150}
-                className="w-full md:w-48 h-48 object-cover rounded-lg"
-              />
-              <div className="flex-grow space-y-2">
-                {editingArtwork === artwork.id ? (
-                  <>
-                    <Input
-                      name="title"
-                      value={artwork.title}
-                      onChange={handleInputChange}
-                      placeholder="Artwork Title"
-                    />
-                    <Textarea
-                      name="description"
-                      value={artwork.description}
-                      onChange={handleInputChange}
-                      placeholder="Artwork Description"
-                    />
-                    <Input
-                      name="price"
-                      type="number"
-                      value={artwork.price}
-                      onChange={handleInputChange}
-                      placeholder="Price"
-                    />
-                    <Input
-                      name="image"
-                      value={artwork.imageUrl}
-                      onChange={handleInputChange}
-                      placeholder="Image URL"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <h3 className="text-xl font-semibold">{artwork.title}</h3>
-                    <p className="text-gray-600">{artwork.description}</p>
-                    <p className="text-lg font-semibold">${artwork.price}</p>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-col gap-2">
-                {editingArtwork === artwork.id ? (
-                  <Button onClick={handleSaveEdit}>Save</Button>
-                ) : (
-                  <Button onClick={() => handleEditArtwork(artwork.id)}>Edit</Button>
-                )}
-                <Button variant="destructive" onClick={() => handleRemoveArtwork(artwork.id)}>
-                  Remove
-                </Button>
-              </div>
-            </div>
+        {artworks.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <h3 className="text-xl font-medium text-gray-600 mb-2">No Artworks Found</h3>
+            <p className="text-gray-500">
+              Start by adding your first artwork using the form above.
+            </p>
           </div>
-        ))}
+        ) : (
+          <>
+            {artworks.map((artwork) => (
+              <div key={artwork.id} className="border rounded-lg overflow-hidden shadow-lg p-4">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <Image
+                    src={artwork.imageUrl}
+                    alt={artwork.title}
+                    width={200}
+                    height={150}
+                    className="w-full md:w-48 h-48 object-cover rounded-lg"
+                  />
+                  <div className="flex-grow space-y-2">
+                    {editingArtwork === artwork.id ? (
+                      <>
+                        <Input
+                          name="title"
+                          value={artwork.title}
+                          onChange={handleInputChange}
+                          placeholder="Artwork Title"
+                        />
+                        <Textarea
+                          name="description"
+                          value={artwork.description}
+                          onChange={handleInputChange}
+                          placeholder="Artwork Description"
+                        />
+                        <Input
+                          name="price"
+                          type="number"
+                          value={artwork.price}
+                          onChange={handleInputChange}
+                          placeholder="Price"
+                        />
+                        <Input
+                          name="image"
+                          value={artwork.imageUrl}
+                          onChange={handleInputChange}
+                          placeholder="Image URL"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="text-xl font-semibold">{artwork.title}</h3>
+                        <p className="text-gray-600">{artwork.description}</p>
+                        <p className="text-lg font-semibold">${artwork.price}</p>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {editingArtwork === artwork.id ? (
+                      <Button onClick={handleSaveEdit}>Save</Button>
+                    ) : (
+                      <Button onClick={() => handleEditArtwork(artwork.id)}>Edit</Button>
+                    )}
+                    <Button variant="destructive" onClick={() => handleRemoveArtwork(artwork.id)}>
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {hasMore && (
+              <Button 
+                onClick={loadMore} 
+                disabled={isLoading}
+                className="w-full"
+              >
+                {isLoading ? 'Loading...' : 'Load More'}
+              </Button>
+            )}
+          </>
+        )}
       </div>
     </div>
   )
