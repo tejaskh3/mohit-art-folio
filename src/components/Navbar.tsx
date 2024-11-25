@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Logo } from "../../public/logo";
 import { motion, AnimatePresence } from "framer-motion"
 import { ShoppingCart } from 'lucide-react'
-
+import Link from "next/link"
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [cartItemCount, setCartItemCount] = useState(2)
@@ -50,6 +50,7 @@ export default function Navbar() {
           </div>
  
           <div className="flex-shrink-0 flex items-center">
+            <Link href="/cart">
             <button 
               className="relative p-2 hover:bg-black/10 rounded-full transition-colors"
               aria-label="Shopping Cart"
@@ -60,7 +61,7 @@ export default function Navbar() {
                   {cartItemCount}
                 </span>
               )}
-            </button>
+            </button></Link>
           </div>
  
           <div className="flex md:hidden">
