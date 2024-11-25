@@ -11,9 +11,9 @@ export default function Contact() {
     <div className="min-h-screen bg-[#E5E1EA]">
       <div className="grid lg:grid-cols-2 min-h-screen">
         {/* Left Section - Hero */}
-        <div className="relative flex items-center justify-center bg-[#2D3250] p-8">
+        <div className="relative flex items-center justify-center bg-[#2D3250] p-16">
           <div className="relative z-10 text-center text-[#F5E9CF]">
-            <h1 className="text-4xl font-bold mb-2">Hello.</h1>
+            <h1 className="text-4xl font-bold mb-2">Hello!</h1>
             <p className="text-2xl">
               Let's work together
               <br />

@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 mt-6 md:mt-8">
           <p className="text-xs md:text-sm text-[#E5E1EA]/80">
-            © {new Date().getFullYear()} June Digital. All rights reserved.
+            © {new Date().getFullYear()} Intake Art. All rights reserved.
           </p>
           <p className="text-xs md:text-sm flex items-center gap-1">
             Crafted with <span className="text-red-400 animate-pulse">❤️</span> by
