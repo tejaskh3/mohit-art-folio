@@ -39,7 +39,7 @@ const defaultNewArtwork = {
   category: '',
   dimensions: '',
   medium: '',
-  status: 'AVAILABLE' // default status
+  status: 'AVAILABLE' 
 }
 
 export default function AdminPage() {

@@ -7,7 +7,7 @@ export const Logo = () => {
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="text-primary"
+        className="text-black"
       >
         <path
           d="M8 4V28"
@@ -58,8 +58,8 @@ export const Logo = () => {
           strokeWidth="2"
         />
       </svg>
-      <span className="text-xl font-bold tracking-tight">
-        Intake <span className="text-primary">Art</span>
+      <span className="text-xl font-bold tracking-tight text-black">
+        Intake Art
       </span>
     </div>
   )
